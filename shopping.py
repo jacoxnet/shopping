@@ -64,6 +64,7 @@ def load_data(filename):
                       "float", "float", "float", "float", "float",
                       "month", "int", "int", "int", "int", 
                       "visitor", "tbool"]
+    
     def convert(funcval, val):
         if funcval == "int":
             return int(val)
@@ -71,7 +72,7 @@ def load_data(filename):
             return float(val)
         if funcval == "month":
             return {"Jan": 0, "Feb": 1, "Mar": 2, "Apr": 3, "May": 4, "June": 5,
-                  "Jul": 6, "Aug": 7, "Sep": 8, "Oct": 9, "Nov": 10, "Dec": 11}[val]
+                    "Jul": 6, "Aug": 7, "Sep": 8, "Oct": 9, "Nov": 10, "Dec": 11}[val]
         if funcval == "visitor":
             return 1 if val == "Returning_Visitor" else 0
         if funcval == "tbool":
@@ -104,6 +105,7 @@ def train_model(evidence, labels):
     """
     model = KNeighborsClassifier(n_neighbors=1)
     return model.fit(evidence, labels)
+
 
 def evaluate(labels, predictions):
     """
