@@ -3,6 +3,7 @@ import sys
 
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
+import numpy as np
 
 TEST_SIZE = 0.4
 
@@ -95,7 +96,7 @@ def load_data(filename):
             evidence.append(rowlist)
             # last column is label
             labels.append(convert("tbool", row[-1:][0]))
-    return (evidence, labels)
+    return (np.array(evidence), np.array(labels))
 
 
 def train_model(evidence, labels):
@@ -122,23 +123,13 @@ def evaluate(labels, predictions):
     representing the "true negative rate": the proportion of
     actual negative labels that were accurately identified.
     """
-    posRight = 0
-    posWrong = 0
-    negRight = 0
-    negWrong = 0
-    for i in range(len(labels)):
-        if labels[i] == 1:
-            if predictions[i] == 1:
-                posRight += 1
-            else:
-                posWrong += 1
-        else:
-            if predictions[i] == 0:
-                negRight += 1
-            else:
-                negWrong += 1
-    sensitivity = posRight/(posRight+posWrong)
-    specificity = negRight/(negRight+negWrong)
+    
+    totalPos = (labels == 1).sum()
+    correctPos = (predictions[labels == 1] == 1).sum()
+    totalNeg = (labels == 0).sum()
+    correctNeg = (predictions[labels == 0] == 0).sum()
+    sensitivity = float(correctPos)/totalPos
+    specificity = float(correctNeg)/totalNeg
     return (sensitivity, specificity)
 
 
