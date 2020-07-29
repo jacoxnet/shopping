@@ -60,13 +60,17 @@ def load_data(filename):
     labels should be the corresponding list of labels, where each label
     is 1 if Revenue is true, and 0 otherwise.
     """
-    # index into this dict to get what must be done for each value
+    # index into this dict for conversion function for each value
     conversion_map = ["int", "float", "int", "float", "int", 
                       "float", "float", "float", "float", "float",
                       "month", "int", "int", "int", "int", 
                       "visitor", "tbool"]
     
     def convert(funcval, val):
+        '''
+        Convert values read in CSV file to appropriate types
+        for analysis
+        '''
         if funcval == "int":
             return int(val)
         if funcval == "float":
@@ -80,6 +84,7 @@ def load_data(filename):
             return 1 if val == "TRUE" else 0
         # shouldn't be any other kinds
         raise AssertionError
+
     with open(filename) as f:
         reader = csv.reader(f)
         # skip over header row
